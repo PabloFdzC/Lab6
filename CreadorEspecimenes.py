@@ -4,7 +4,6 @@ import numpy as np
 def leer_imagenes(cantidad):
     cantidad_numeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(1, cantidad+1):
-        print(i)
         # Si el número de imagen es impar corresponde a los dígitos
         # del 0 al 4 y si es par, los dígitos del 5 al 9.
         if i % 2 == 0:
@@ -37,7 +36,6 @@ def leer_imagenes(cantidad):
                 cnts_rectangulos.append(c)
 
         num_rectangulo = 0
-        print(len(cnts_rectangulos))
         if len(cnts_rectangulos) == 5:
             # Se recorren los rectángulos para encontrar los números
             for c in cnts_rectangulos:
