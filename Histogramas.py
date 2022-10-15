@@ -32,7 +32,7 @@ def cargar_imagenes(carpeta, cantidad):
       
   return imagenes, nombres, carpetas
 
-def histograma(pixeles, imagen, color):
+def generarHistograma(pixeles, imagen, color):
   # se divide la cantidad de pixeles entre
   # porque la cantidad corresponde a un cuadrado
   # entonces si es 4 debemos hacer cada 2 filas
@@ -56,25 +56,23 @@ def histograma(pixeles, imagen, color):
   # numpy permite calcular la suma de columnas o filas
   # entonces aquí devolvemos el primer array es de las
   # filas y el segundo de las columnas
-  return np.sum(matrizHistograma, axis=1), np.sum(matrizHistograma, axis=0)
+  horizontal = np.sum(matrizHistograma, axis=1)
+  vertical = np.sum(matrizHistograma, axis=0)
+  return np.concatenate((horizontal, vertical))
 
-# Va mostrando los histogramas
-def mostrarGrafico(histogramas, titulos, nombre, carpeta):
-  # Esta primera parte permite mostrar todos los histogramas en
-  # una mismo ventana, o sea en este caso mostrar el histograma
-  # vertical y horizontal de un espécimen en una misma ventana
-  # en lugar de una ventana para cada uno
-  fig, ax = plt.subplots(1,len(histogramas))
-  for i in range(len(histogramas)):
+def mostrarGrafico(histograma, titulos, nombre, carpeta):
+  fig, ax = plt.subplots()
 
-    secciones = list(range(len(histogramas[i])))
+  secciones = list(range(len(histograma)))
 
-    ax[i].bar(secciones, histogramas[i])
+  ax.bar(secciones, histograma)
+  
 
-    ax[i].set_ylabel('Apariciones')
-    ax[i].set_title(titulos[i])
+  ax.set_ylabel('Apariciones')
+  ax.set_title(titulos)
     
-  fig.suptitle("Histogramas de " + carpeta + " " + nombre)
+  fig.suptitle("Histograma de " + carpeta + " " + nombre)
+  plt.xticks(color='w')
   plt.show()
   carpetaGuardado = os.path.join("Histogramas",carpeta)
   if not os.path.exists(carpetaGuardado):
@@ -83,27 +81,14 @@ def mostrarGrafico(histogramas, titulos, nombre, carpeta):
   fig.savefig(nombreGuardado)
 
 # Se puede usar el programa usando
-# python Histogramas.py <nombre de carpeta> <cantidad de imagenes x carpeta>
-# El primer parámetro es para el nombre de la carpeta donde están
-# las imágenes entonces es un string
-# El segundo parámetro es un número entero para decidir a cuantas
-# imagenes se les mostrará el histograma
-# Por defecto solo se muestra 1 imagen por carpeta
+# python Histogramas.py
 
 # La carpeta de especimenes debería tener la forma:
 # Especimenes/0/especimen.jpg
-def main():
-  carpetaImagenes = "Especimenes"
-  cantidadImagenes = 1
-  if len(sys.argv) >= 2:
-    carpetaImagenes = sys.argv[1]
-  if len(sys.argv) >= 3:
-    cantidadImagenes = int(sys.argv[2])
-  imagenes, nombres, carpetas = cargar_imagenes(carpetaImagenes, cantidadImagenes)
-  for i in range(len(imagenes)):
-    histogramas = histograma(4, imagenes[i], np.array([255,255,255]))
-    carpeta = carpetas[i].replace(os.path.join(carpetaImagenes,""),"")
-    mostrarGrafico(histogramas,["Histograma horizontal", "Histograma vertical"], nombres[i], carpeta)
-
-if __name__ == "__main__":
-   main()
+carpetaImagenes = "Especimenes"
+cantidadImagenes = 1
+imagenes, nombres, carpetas = cargar_imagenes(carpetaImagenes, cantidadImagenes)
+for i in range(len(imagenes)):
+  histograma = generarHistograma(4, imagenes[i], np.array([255,255,255]))
+  carpeta = carpetas[i].replace(os.path.join(carpetaImagenes,""),"")
+  mostrarGrafico(histograma,"Primero se muestran los valores del horizontal y luego el vertical", nombres[i], carpeta)
