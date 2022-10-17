@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 
+# Carpeta con especimenes:
+# https://drive.google.com/drive/folders/1qTAt09H2X3dENsdTwr7O5GL1X8xTymgL?usp=sharing
+
 def leer_imagenes(cantidad):
     cantidad_numeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(1, cantidad+1):
