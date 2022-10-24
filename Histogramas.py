@@ -85,10 +85,10 @@ def mostrarGrafico(histograma, titulos, nombre, carpeta):
 
 # La carpeta de especimenes debería tener la forma:
 # Especimenes/0/especimen.jpg
-carpetaImagenes = "Especimenes"
-cantidadImagenes = 1
-imagenes, nombres, carpetas = cargar_imagenes(carpetaImagenes, cantidadImagenes)
-for i in range(len(imagenes)):
-  histograma = generarHistograma(4, imagenes[i], np.array([255,255,255]))
-  carpeta = carpetas[i].replace(os.path.join(carpetaImagenes,""),"")
-  mostrarGrafico(histograma,"Primero se muestran los valores del horizontal y luego el vertical", nombres[i], carpeta)
+#carpetaImagenes = "Especimenes"
+#cantidadImagenes = 1
+#imagenes, nombres, carpetas = cargar_imagenes(carpetaImagenes, cantidadImagenes)
+#for i in range(len(imagenes)):
+#  histograma = generarHistograma(4, imagenes[i], np.array([255,255,255]))
+#  carpeta = carpetas[i].replace(os.path.join(carpetaImagenes,""),"")
+#  mostrarGrafico(histograma,"Primero se muestran los valores del horizontal y luego el vertical", nombres[i], carpeta)
